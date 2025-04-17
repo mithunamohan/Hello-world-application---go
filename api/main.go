@@ -1,23 +1,20 @@
 package main
 
 import (
-	"fmt"
+	"go-project-deb/config"
 	"go-project-deb/apiroutes"
-	// "go-project-deb/api_routes"
-
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 func main() {
-	router := gin.Default()
+	// Initialize DB connection
+	config.ConnectDB()
 
+	// Setup router
+	router := gin.Default()
 	apiroutes.RegisterRoutes(router)
 
-	fmt.Println("Example app listening on port 8080")
-	router.Run() // default: ":8080"
+	log.Println("Example app listening on port 8080")
+	router.Run(":8081")
 }
-
-
-// func RegisterRoutes(router *gin.Engine) {
-// 	panic("unimplemented")
-// }

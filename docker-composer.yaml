@@ -1,0 +1,38 @@
+services:
+
+  mongodb:
+    image : mongodb/mongodb-community-server:latest
+    container_name : mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      # named volumes
+      - mongo_volume:/data/db         
+      - ./api/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+  api:
+    image: gin-backend
+    container_name: api
+    build:
+      context: ./api    # Folder containing your Go app and Dockerfile
+      dockerfile: Dockerfile
+    depends_on :
+      - mongodb
+    ports:
+      - "8081:8081"
+    restart: unless-stopped
+
+  ui:
+    image: react-ui
+    container_name: ui_go
+    build:
+      context: ./ui         # Folder containing your React app and Dockerfile
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes : 
+  mongo_volume :
+

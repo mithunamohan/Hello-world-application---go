@@ -1,6 +1,6 @@
 import { useEffect,useState } from 'react'
 
-const API = "127.0.0.1:8000";
+const API = "127.0.0.1:8080";
 
 export default function Greetings(){
 
